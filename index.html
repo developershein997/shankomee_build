@@ -56,6 +56,52 @@
         0% { background-position: 200% 0; }
         100% { background-position: -200% 0; }
       }
+      
+      /* Preserve original Unity styles */
+      #unity-container {
+        background: transparent;
+      }
+      #unity-loading-bar {
+        background: transparent;
+      }
+      #unity-progress-bar-empty {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      #unity-progress-bar-full {
+        background: linear-gradient(90deg, #3B82F6, #10B981, #F59E0B);
+        height: 100%;
+        transition: width 0.3s ease;
+      }
+      #unity-logo {
+        background-image: url('TemplateData/shan.jpg');
+        background-size: cover;
+        background-position: center;
+        border-radius: 50%;
+        border: 4px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      }
+      #unity-footer {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+      #unity-fullscreen-button {
+        background: linear-gradient(135deg, #3B82F6, #1D4ED8);
+        border-radius: 8px;
+        transition: all 0.3s ease;
+      }
+      #unity-fullscreen-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+      }
+      #unity-build-title {
+        color: #F59E0B;
+        font-weight: bold;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+      }
     </style>
   </head>
   <body class="bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 min-h-screen text-white overflow-x-hidden">
@@ -65,73 +111,7 @@
       <source src="TemplateData/sounds/background.ogg" type="audio/ogg">
     </audio>
 
-    <!-- Loading Screen -->
-    <div id="loading-screen" class="fixed inset-0 z-50 flex flex-col items-center justify-center gradient-bg">
-      <!-- Logo Section -->
-      <div class="text-center mb-8 animate-fade-in">
-        <img src="TemplateData/shan.jpg" alt="SKM Web Delight Logo" 
-             class="w-24 h-24 md:w-32 md:h-32 rounded-full mx-auto mb-4 shadow-2xl border-4 border-white/20">
-        <h1 class="text-3xl md:text-5xl font-bold text-white mb-2 drop-shadow-lg">
-          SKM Web Delight
-        </h1>
-        <p class="text-lg md:text-xl text-blue-100 opacity-90">GoldenMM Experience</p>
-      </div>
-
-      <!-- Progress Bar Container -->
-      <div class="w-80 md:w-96 max-w-full px-4 animate-slide-up">
-        <div class="bg-white/20 rounded-full h-3 mb-4 overflow-hidden">
-          <div id="progress-bar" class="progress-bar h-full rounded-full transition-all duration-300 ease-out" 
-               style="width: 0%"></div>
-        </div>
-        <div class="text-center">
-          <p id="loading-text" class="text-lg font-medium text-white mb-2">Initializing...</p>
-          <p id="progress-percentage" class="text-sm text-blue-200">0%</p>
-        </div>
-      </div>
-
-      <!-- Loading Animation -->
-      <div class="mt-8 flex space-x-2">
-        <div class="w-3 h-3 bg-white rounded-full animate-bounce-slow"></div>
-        <div class="w-3 h-3 bg-white rounded-full animate-bounce-slow" style="animation-delay: 0.1s"></div>
-        <div class="w-3 h-3 bg-white rounded-full animate-bounce-slow" style="animation-delay: 0.2s"></div>
-      </div>
-    </div>
-
-    <!-- Main Game Container -->
-    <div id="game-container" class="hidden min-h-screen">
-      <!-- Header -->
-      <header class="glass-effect p-4 md:p-6">
-        <div class="flex items-center justify-between max-w-7xl mx-auto">
-          <div class="flex items-center space-x-3">
-            <img src="TemplateData/shan.jpg" alt="Logo" class="w-10 h-10 rounded-full">
-            <h2 class="text-xl md:text-2xl font-bold">SKM Web Delight - GoldenMM</h2>
-          </div>
-          <div class="flex items-center space-x-4">
-            <button id="sound-toggle" class="p-2 rounded-full bg-white/20 hover:bg-white/30 transition-colors">
-              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.617.793L4.5 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.5l4.883-3.793a1 1 0 011.617.793zM12.293 7.293a1 1 0 011.414 0L15 8.586l1.293-1.293a1 1 0 111.414 1.414L16.414 10l1.293 1.293a1 1 0 01-1.414 1.414L15 11.414l-1.293 1.293a1 1 0 01-1.414-1.414L13.586 10l-1.293-1.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-              </svg>
-            </button>
-            <button id="fullscreen-btn" class="px-4 py-2 bg-primary hover:bg-blue-600 rounded-lg transition-colors">
-              Fullscreen
-            </button>
-          </div>
-        </div>
-      </header>
-
-      <!-- Unity Container -->
-      <div id="unity-container" class="unity-desktop flex-1 flex items-center justify-center p-4">
-        <canvas id="unity-canvas" width="960" height="600" tabindex="-1" 
-                class="max-w-full h-auto rounded-lg shadow-2xl"></canvas>
-      </div>
-
-      <!-- Footer -->
-      <footer class="glass-effect p-4 text-center">
-        <p class="text-sm text-blue-200">© 2024 SKM Web Delight - GoldenMM Experience</p>
-      </footer>
-    </div>
-
-    <!-- Mobile Orientation Message -->
+    <!-- Enhanced Rotate Message -->
     <div id="rotate-message" class="hidden fixed inset-0 z-50 flex items-center justify-center gradient-bg">
       <div class="text-center p-8">
         <div class="w-16 h-16 mx-auto mb-4 animate-pulse-slow">
@@ -144,171 +124,153 @@
       </div>
     </div>
 
+    <!-- Enhanced Unity Container -->
+    <div id="unity-container" class="unity-desktop flex flex-col items-center justify-center min-h-screen p-4">
+      <!-- Enhanced Header with Logo -->
+      <div class="text-center mb-8 animate-fade-in">
+        <img src="TemplateData/shan.jpg" alt="SKM Web Delight Logo" 
+             class="w-20 h-20 md:w-24 md:h-24 rounded-full mx-auto mb-4 shadow-2xl border-4 border-white/20">
+        <h1 class="text-2xl md:text-4xl font-bold text-white mb-2 drop-shadow-lg">
+          SKM Web Delight
+        </h1>
+        <p class="text-lg md:text-xl text-blue-100 opacity-90">GoldenMM Experience</p>
+      </div>
+
+      <!-- Unity Canvas -->
+      <canvas id="unity-canvas" width="960" height="600" tabindex="-1" 
+              class="max-w-full h-auto rounded-lg shadow-2xl border-4 border-white/20"></canvas>
+      
+      <!-- Enhanced Unity Loading Bar -->
+      <div id="unity-loading-bar" class="w-full max-w-md mt-8 animate-slide-up">
+        <div id="unity-logo" class="w-16 h-16 mx-auto mb-4"></div>
+        <div id="unity-progress-bar-empty" class="h-3 rounded-full overflow-hidden">
+          <div id="unity-progress-bar-full" class="h-full rounded-full" style="width: 0%"></div>
+        </div>
+        <div class="text-center mt-4">
+          <p class="text-lg font-medium text-white mb-2">Loading GoldenMM...</p>
+          <div class="flex space-x-2 justify-center">
+            <div class="w-2 h-2 bg-white rounded-full animate-bounce-slow"></div>
+            <div class="w-2 h-2 bg-white rounded-full animate-bounce-slow" style="animation-delay: 0.1s"></div>
+            <div class="w-2 h-2 bg-white rounded-full animate-bounce-slow" style="animation-delay: 0.2s"></div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Enhanced Unity Warning -->
+      <div id="unity-warning" class="mt-4"></div>
+      
+      <!-- Enhanced Unity Footer -->
+      <div id="unity-footer" class="flex items-center justify-between w-full max-w-2xl mt-8 p-4">
+        <div id="unity-webgl-logo" class="text-blue-200 text-sm">WebGL Powered</div>
+        <button id="unity-fullscreen-button" class="px-6 py-2 text-white font-medium">
+          Fullscreen
+        </button>
+        <div id="unity-build-title" class="text-lg">GoldenMM</div>
+      </div>
+    </div>
+    
     <script>
       // Global variables
       let unityInstance = null;
       let isSoundEnabled = true;
-      let loadingProgress = 0;
-      let loadingSteps = [
-        { text: 'Initializing...', progress: 10 },
-        { text: 'Loading assets...', progress: 25 },
-        { text: 'Preparing Unity...', progress: 40 },
-        { text: 'Loading framework...', progress: 60 },
-        { text: 'Starting game...', progress: 80 },
-        { text: 'Almost ready...', progress: 95 },
-        { text: 'Launching!', progress: 100 }
-      ];
 
-      // DOM elements
-      const loadingScreen = document.getElementById('loading-screen');
-      const gameContainer = document.getElementById('game-container');
-      const progressBar = document.getElementById('progress-bar');
-      const loadingText = document.getElementById('loading-text');
-      const progressPercentage = document.getElementById('progress-percentage');
-      const rotateMessage = document.getElementById('rotate-message');
-      const soundToggle = document.getElementById('sound-toggle');
-      const fullscreenBtn = document.getElementById('fullscreen-btn');
-      const bgMusic = document.getElementById('bgMusic');
-
-      // Initialize the app
-      function init() {
-        checkOrientation();
-        startLoadingSequence();
-        setupEventListeners();
-      }
-
-      // Check device orientation
       function checkOrientation() {
+        var message = document.getElementById("rotate-message");
         if (window.innerHeight > window.innerWidth) {
-          rotateMessage.classList.remove('hidden');
+          message.classList.remove('hidden');
         } else {
-          rotateMessage.classList.add('hidden');
+          message.classList.add('hidden');
         }
       }
 
-      // Loading sequence with progress updates
-      function startLoadingSequence() {
-        let currentStep = 0;
-        
-        const updateProgress = () => {
-          if (currentStep < loadingSteps.length) {
-            const step = loadingSteps[currentStep];
-            loadingText.textContent = step.text;
-            progressBar.style.width = step.progress + '%';
-            progressPercentage.textContent = step.progress + '%';
-            currentStep++;
-            
-            setTimeout(updateProgress, 800);
-          } else {
-            setTimeout(() => {
-              loadingScreen.classList.add('hidden');
-              gameContainer.classList.remove('hidden');
-              startUnity();
-            }, 500);
-          }
-        };
-        
-        updateProgress();
-      }
+      window.addEventListener("resize", checkOrientation);
+      window.addEventListener("orientationchange", checkOrientation);
+      checkOrientation();
 
-      // Start Unity WebGL
-      function startUnity() {
-        const buildUrl = "Build";
-        const loaderUrl = buildUrl + "/SKMWebDelight.loader.js";
-        
-        const config = {
-          dataUrl: buildUrl + "/SKMWebDelight.data",
-          frameworkUrl: buildUrl + "/SKMWebDelight.framework.js",
-          codeUrl: buildUrl + "/SKMWebDelight.wasm",
-          streamingAssetsUrl: "StreamingAssets",
-          companyName: "Delight",
-          productName: "GoldenMM",
-          productVersion: "1.0.3",
-          showBanner: unityShowBanner,
-        };
+      var container = document.querySelector("#unity-container");
+      var canvas = document.querySelector("#unity-canvas");
+      var loadingBar = document.querySelector("#unity-loading-bar");
+      var progressBarFull = document.querySelector("#unity-progress-bar-full");
+      var fullscreenButton = document.querySelector("#unity-fullscreen-button");
+      var warningBanner = document.querySelector("#unity-warning");
+      var bgMusic = document.getElementById("bgMusic");
 
-        // Mobile detection and setup
-        const container = document.querySelector("#unity-container");
-        const canvas = document.querySelector("#unity-canvas");
-        
-        if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-          container.className = "unity-mobile";
-          canvas.className = "unity-mobile";
-        } else {
-          canvas.style.width = "960px";
-          canvas.style.height = "600px";
-        }
-
-        // Load Unity
-        const script = document.createElement("script");
-        script.src = loaderUrl;
-        script.onload = () => {
-          createUnityInstance(canvas, config, (progress) => {
-            // Unity loading progress
-          }).then((instance) => {
-            unityInstance = instance;
-            // Auto-start background music
-            if (isSoundEnabled) {
-              bgMusic.play().catch(e => console.log('Audio autoplay blocked'));
-            }
-          }).catch((message) => {
-            console.error('Unity failed to load:', message);
-            alert('Failed to load the game. Please refresh the page.');
-          });
-        };
-        
-        document.body.appendChild(script);
-      }
-
-      // Unity banner system
       function unityShowBanner(msg, type) {
-        // You can implement a custom notification system here
-        console.log(`${type}: ${msg}`);
-      }
-
-      // Event listeners
-      function setupEventListeners() {
-        window.addEventListener('resize', checkOrientation);
-        window.addEventListener('orientationchange', checkOrientation);
-        
-        soundToggle.addEventListener('click', toggleSound);
-        fullscreenBtn.addEventListener('click', toggleFullscreen);
-        
-        // Prevent context menu on long press
-        document.addEventListener('contextmenu', e => e.preventDefault());
-      }
-
-      // Toggle sound
-      function toggleSound() {
-        isSoundEnabled = !isSoundEnabled;
-        if (isSoundEnabled) {
-          bgMusic.play();
-          soundToggle.innerHTML = `
-            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.617.793L4.5 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.5l4.883-3.793a1 1 0 011.617.793zM12.293 7.293a1 1 0 011.414 0L15 8.586l1.293-1.293a1 1 0 111.414 1.414L16.414 10l1.293 1.293a1 1 0 01-1.414 1.414L15 11.414l-1.293 1.293a1 1 0 01-1.414-1.414L13.586 10l-1.293-1.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-            </svg>
-          `;
-        } else {
-          bgMusic.pause();
-          soundToggle.innerHTML = `
-            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.617.793L4.5 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.5l4.883-3.793a1 1 0 011.617.793zM12.293 7.293a1 1 0 011.414 0L15 8.586l1.293-1.293a1 1 0 111.414 1.414L16.414 10l1.293 1.293a1 1 0 01-1.414 1.414L15 11.414l-1.293 1.293a1 1 0 01-1.414-1.414L13.586 10l-1.293-1.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-            </svg>
-          `;
+        function updateBannerVisibility() {
+          warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
         }
-      }
-
-      // Toggle fullscreen
-      function toggleFullscreen() {
-        if (!document.fullscreenElement) {
-          document.documentElement.requestFullscreen();
-        } else {
-          document.exitFullscreen();
+        var div = document.createElement('div');
+        div.innerHTML = msg;
+        div.className = `p-3 rounded-lg mb-2 text-center font-medium ${
+          type === 'error' ? 'bg-red-500 text-white' : 'bg-yellow-400 text-black'
+        }`;
+        warningBanner.appendChild(div);
+        
+        if (type !== 'error') {
+          setTimeout(function() {
+            if (warningBanner.contains(div)) {
+              warningBanner.removeChild(div);
+              updateBannerVisibility();
+            }
+          }, 5000);
         }
+        updateBannerVisibility();
       }
 
-      // Initialize when DOM is loaded
-      document.addEventListener('DOMContentLoaded', init);
+      var buildUrl = "Build";
+      var loaderUrl = buildUrl + "/SKMWebDelight.loader.js";
+      var config = {
+        dataUrl: buildUrl + "/SKMWebDelight.data",
+        frameworkUrl: buildUrl + "/SKMWebDelight.framework.js",
+        codeUrl: buildUrl + "/SKMWebDelight.wasm",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "Delight",
+        productName: "GoldenMM",
+        productVersion: "1.0.3",
+        showBanner: unityShowBanner,
+      };
+
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        var meta = document.createElement('meta');
+        meta.name = 'viewport';
+        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+        document.getElementsByTagName('head')[0].appendChild(meta);
+        container.className = "unity-mobile";
+        canvas.className = "unity-mobile";
+      } else {
+        canvas.style.width = "960px";
+        canvas.style.height = "600px";
+      }
+
+      loadingBar.style.display = "block";
+
+      var script = document.createElement("script");
+      script.src = loaderUrl;
+      script.onload = () => {
+        createUnityInstance(canvas, config, (progress) => {
+          progressBarFull.style.width = 100 * progress + "%";
+        }).then((instance) => {
+          unityInstance = instance;
+          loadingBar.style.display = "none";
+          
+          // Auto-start background music
+          if (isSoundEnabled) {
+            bgMusic.play().catch(e => console.log('Audio autoplay blocked'));
+          }
+          
+          fullscreenButton.onclick = () => {
+            unityInstance.SetFullscreen(1);
+          };
+        }).catch((message) => {
+          console.error('Unity failed to load:', message);
+          alert('Failed to load the game. Please refresh the page.');
+        });
+      };
+      
+      document.body.appendChild(script);
+
+      // Prevent context menu on long press
+      document.addEventListener('contextmenu', e => e.preventDefault());
     </script>
   </body>
 </html>
